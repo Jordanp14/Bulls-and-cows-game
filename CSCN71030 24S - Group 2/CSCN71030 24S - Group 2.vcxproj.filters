@@ -24,12 +24,18 @@
     <ClCompile Include="answer.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="validate (correct p).c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeaderboardSave.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="answer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="validate (correct p).h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -130,10 +130,12 @@
     <ClCompile Include="answer.c" />
     <ClCompile Include="LeaderboardSave.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="validate (correct p).c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="answer.h" />
     <ClInclude Include="LeaderboardSave.h" />
+    <ClInclude Include="validate (correct p).h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
