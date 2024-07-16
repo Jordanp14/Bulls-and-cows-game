@@ -21,9 +21,15 @@
     <ClCompile Include="LeaderboardSave.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="answer.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="LeaderboardSave.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="answer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
