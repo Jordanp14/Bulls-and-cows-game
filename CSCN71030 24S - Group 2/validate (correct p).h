@@ -2,4 +2,4 @@
 #include <stdbool.h>
 
 //function declaration
-bool* validate_correct_position(int* guess, int* target, int length);
+void validate_correct_position(int* guess, int* target, int length);
