@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include <string.h>
+#include "validate (correct p).h"
 #include "LeaderboardSave.h"
 #include "answer.h"
 
@@ -16,4 +17,8 @@ int main(int argc, char* argv[])
 	int* answer = getRandomInt(difLength);
 
 	printAnswer(answer, difLength);
+
+	
+
+	return 0;
 }
