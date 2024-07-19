@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -130,11 +130,13 @@
     <ClCompile Include="answer.c" />
     <ClCompile Include="LeaderboardSave.c" />
     <ClCompile Include="main.c" />
+    <ClCompile Include="UserInterface.c" />
     <ClCompile Include="validate (correct p).c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="answer.h" />
     <ClInclude Include="LeaderboardSave.h" />
+    <ClInclude Include="UserInterface.h" />
     <ClInclude Include="validate (correct p).h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,6 +6,7 @@
 #include <string.h>
 #include "validate (correct p).h"
 #include "LeaderboardSave.h"
+#include "UserInterface.h"
 #include "answer.h"
 
 int main(int argc, char* argv[])
