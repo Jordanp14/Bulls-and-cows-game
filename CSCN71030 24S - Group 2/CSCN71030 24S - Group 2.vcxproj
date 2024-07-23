@@ -132,12 +132,14 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="UserInterface.c" />
     <ClCompile Include="validate (correct p).c" />
+    <ClCompile Include="validateWrongPosition.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="answer.h" />
     <ClInclude Include="LeaderboardSave.h" />
     <ClInclude Include="UserInterface.h" />
     <ClInclude Include="validate (correct p).h" />
+    <ClInclude Include="validateWrongPosition.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
