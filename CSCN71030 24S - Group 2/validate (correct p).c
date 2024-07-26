@@ -4,7 +4,7 @@
 
 #define SIZE_MESSAGE 100
 //function to validate if the guessed numbers are in the correct position
-void validate_correct_position(int* guess, int* target, int length) {
+int validate_correct_position(int* guess, int* target, int length) {
 	int correct_position = 0;
 
 	//counts the number of correct positions
@@ -15,8 +15,8 @@ void validate_correct_position(int* guess, int* target, int length) {
 	}
 	
 	//prints the number of correct positions
-	printf("There are %d number%s in the correct position.\n", correct_position, correct_position == 1 ? "" : "s");
+	//printf("There are %d number%s in the correct position.\n", correct_position, correct_position == 1 ? "" : "s");
 
-	
+	return correct_position;
 
 }

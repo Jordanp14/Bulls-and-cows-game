@@ -3,17 +3,42 @@
 #include <string.h>
 #include <ctype.h>
 #include "UserInterface.h"
+#include "LeaderboardSave.h"
 
-void startGame(int difficulty, char* username, char* initialGuess) {
-    char guess[10];
+//redundant
+
+//void startGame(char* difficulty, char* username, char* initialGuess) {
+//    int guess[10];
+//    int valid;
+//
+//    if (initialGuess != NULL) {
+//        printf("\nResuming game at difficulty level %s with last guess %s.\n\n", difficulty, initialGuess);
+//        strcpy(guess, initialGuess);
+//    }
+//    else {
+//        printf("\nStarting game at difficulty level %s.\n\n", difficulty);
+//    }
+//
+//}
+
+int* getGuess(int difficulty, char* username)
+{
     int valid;
 
-    if (initialGuess != NULL) {
-        printf("\nResuming game at difficulty level %d with last guess %s.\n\n", difficulty, initialGuess);
-        strcpy(guess, initialGuess);
+    char* guess = (char*)malloc(difficulty * sizeof(char));
+    // check that memory was successfully allocated
+    if (guess == NULL)
+    {
+        printf("Could not allocate memory\t exiting...");
+        exit(1);
     }
-    else {
-        printf("\nStarting game at difficulty level %d.\n\n", difficulty);
+
+    int* intGuess = (int*)malloc(difficulty * sizeof(int));
+    // check that memory was successfully allocated
+    if (intGuess == NULL)
+    {
+        printf("Could not allocate memory\t exiting...");
+        exit(1);
     }
 
     do {
@@ -21,9 +46,8 @@ void startGame(int difficulty, char* username, char* initialGuess) {
         scanf("%s", guess);
 
         if (strcmp(guess, "save") == 0) {
-            saveGame(difficulty, username, guess);
-            printf("Game saved. You can resume later.\n");
-            return;
+            intGuess[0] = -1;
+            return intGuess;
         }
 
         valid = isValidGuess(guess, difficulty);
@@ -32,21 +56,35 @@ void startGame(int difficulty, char* username, char* initialGuess) {
         }
     } while (!valid);
 
+
+    // convert guess from char* to int*
+    for (int i = 0; i < difficulty; i++)
+    {
+        intGuess[i] = (int)guess[i];
+    }
+
     // Implement the rest of the game logic here
     printf("Your valid guess: %s\n", guess);
+    //free(guess);
+
+    return intGuess;
 }
 
-void resumeGame(char* username) {
-    int difficulty;
-    char guess[10];
+//redundant
 
-    if (loadGame(&difficulty, username, guess)) {
-        startGame(difficulty, username, guess);
-    }
-    else {
-        printf("No saved game found or error loading the game.\n");
-    }
-}
+//void resumeGame(char* username) {
+//    char difficulty[10];
+//    int* score = 4;
+//    char guess[10];
+//    int guess_length = 4;
+//
+//    if (Reload_Game_State(username, score, guess, guess_length, difficulty)) {
+//        startGame(difficulty, username, guess);
+//    }
+//    else {
+//        printf("No saved game found or error loading the game.\n");
+//    }
+//}
 
 void displayGameRules() {
     printf("\nGame Rules:\n");
@@ -56,23 +94,9 @@ void displayGameRules() {
     printf("3. The goal is to guess the number correctly in the fewest attempts.\n\n");
 }
 
-int isValidGuess(char* guess, int difficulty) {
+// case switch was not needed because the expected length will already be known
+int isValidGuess(char* guess, int expectedLength) {
     int length = strlen(guess);
-    int expectedLength;
-
-    switch (difficulty) {
-    case 1:
-        expectedLength = 4;
-        break;
-    case 2:
-        expectedLength = 5;
-        break;
-    case 3:
-        expectedLength = 6;
-        break;
-    default:
-        return 0;
-    }
 
     if (length != expectedLength) {
         return 0;
@@ -87,11 +111,35 @@ int isValidGuess(char* guess, int difficulty) {
     return 1;
 }
 
-void saveGame(int difficulty, char* username, char* guess) {
-    // Implement game save logic here
-}
+int selectMenuOption(void)
+{
+    int value, input;
 
-int loadGame(int* difficulty, char* username, char* guess) {
-    // Implement game load logic here
-    return 0; // Return 1 if loading is successful, otherwise 0
+    // keep asking for input until valid input is accepted
+    do
+    {
+        value = scanf("%d", &input);
+        int c;
+        if (value != 1)
+        {
+        
+        //check for unrecoverable error
+        if (value == EOF)
+        {
+            fprintf(stderr, "Unrecoverable input error!\n");
+            exit(EXIT_FAILURE);
+        }
+
+        //print error message
+        printf("Input not accepted\n");
+
+        do
+        {
+            c = getchar();
+
+        } while (c != EOF && c != '\n');
+    }
+    } while (value != 1);
+
+    return input;
 }
