@@ -104,11 +104,27 @@ int main(int argc, char* argv[])
 				cows = validate_wrong_position(guess, answer, difLength);
 
 				//print results to user
-				printf("There are %d bulls and %d cows.\n", bulls, cows);
+				if (bulls == 1)
+				{
+					printf("There is 1 bull ");
+				}
+				else
+				{
+					printf("There are %d bulls ", bulls);
+				}
+				if (cows == 1)
+				{
+					printf("and 1 cow.\n");
+				}
+				else
+				{
+					printf("and %d cows.\n", cows);
+				}
 
 				if (bulls == difLength)
 				{
 					printf("\nCongratulations! You won in %d turns!\n", score);
+					Save_User_Score(username, score, &guess, difLength, difficulty);
 				}
 
 			} while (bulls != difLength);
