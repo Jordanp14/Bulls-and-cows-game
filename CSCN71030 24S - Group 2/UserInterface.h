@@ -1,11 +1,12 @@
 #pragma once
 
-// Function declarations
-void getUsername(char* username);
-void startGame(int difficulty, char* username, int* initialGuess);
-void resumeGame(char* username);
+// Function prototypes
 void displayGameRules();
-int isValidGuess(int* guess, int difficulty);
-void saveGame(int difficulty, char* username, int* guess);
-int loadGame(int* difficulty, char* username, int* guess);
-void gameMenu(int difficulty);
+//void startGame(int difficulty, char* username, char* initialGuess);
+int isValidGuess(char* guess, int difficulty);
+//void resumeGame(char* username);
+int* getGuess(int difficulty);
+void displayTitle(void);
+void gameMenu(void);
+void getUsername(char* username);
+int selectMenuOption(void);
