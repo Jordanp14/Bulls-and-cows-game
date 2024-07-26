@@ -3,6 +3,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "UserInterface.h"
+#include "answer.h"
 
 
 // Function definitions
@@ -12,7 +13,14 @@ void getUsername(char* username) {
 }
 
 int* getGuess(int difficulty) {
-    int guess[10];
+    
+    int* guess = (int*)malloc(sizeof(int) * difficulty);
+    if (guess == NULL)
+    {
+        printf("Could not allocate memory\t exiting...");
+        exit(1);
+    }
+
     char input[10];
     int valid;
 
@@ -26,17 +34,19 @@ int* getGuess(int difficulty) {
             return guess;
         }
 
-        for (int i = 0; i < difficulty + 3; i++) {
-            guess[i] = input[i] - '0';
-        }
-
-        valid = isValidGuess(guess, difficulty);
+        valid = isValidGuess(input, difficulty);
         if (!valid) {
             printf("Invalid guess. Please try again.\n");
         }
     } while (!valid);
 
-    printf("Your valid guess: %s\n", input);
+    for (int i = 0; i < difficulty + 3; i++) {
+        guess[i] = input[i] - '0';
+    }
+   // printAnswer(guess, difficulty);
+
+    //printf("Your valid guess: %s\n", input);
+    
     return guess;
 }
 
@@ -100,7 +110,7 @@ void displayGameRules() {
 
 // case switch was not needed because the expected length will already be known
 int isValidGuess(char* guess, int expectedLength) {
-    int length = strlen(guess);
+    int length = (int)strlen(guess);
 
     if (length != expectedLength) {
         return 0;

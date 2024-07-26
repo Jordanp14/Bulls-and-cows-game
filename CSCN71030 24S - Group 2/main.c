@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 	bool continueGame = true;
 
 	// seed the random
-	srand(time(NULL));
+	srand((unsigned int)time(NULL));
 
 	// read command line argument to get difficulty length
 	int difLength = readDifficulty(argv[1]);
@@ -80,10 +80,14 @@ int main(int argc, char* argv[])
 
 
 		case 2:
+			// Tell the user the difficulty
+			printf("The game is set to %s\n", difficulty);
 
+			// until the game has been won
 			do
 			{
-				guess = getGuess(difLength, username);
+				// get a guess from the user, if the first value is -1 then they typed "save" and the game should be paused
+				guess = getGuess(difLength);
 				if (guess[0] == -1)
 				{
 					break;
@@ -102,24 +106,33 @@ int main(int argc, char* argv[])
 				//print results to user
 				printf("There are %d bulls and %d cows.\n", bulls, cows);
 
+				if (bulls == difLength)
+				{
+					printf("\nCongratulations! You won in %d turns!\n", score);
+				}
+
 			} while (bulls != difLength);
 			break;
 
 		case 3:
+			displayGameRules();
+			break;
+
+		case 4:
+		
+			// ask for leaderboad display difficulty 
 			do
 			{
 				printf("Which difficulty would you like to display?\n1. Easy\n2. Medium\n3. Hard\n");
 				value = scanf("%s", leaderboardDifficulty);
 
-			} while (value != 1 && readDifficulty(leaderboardDifficulty) != 4 ||
-				readDifficulty(leaderboardDifficulty) != 5 || readDifficulty(leaderboardDifficulty) != 6);
+			} while (value != 1 && readDifficulty(leaderboardDifficulty) != 4 &&
+				readDifficulty(leaderboardDifficulty) != 5 && readDifficulty(leaderboardDifficulty) != 6);
 
-
+			// display leaderboard based on selected difficulty
 			Display_Leaderboard(leaderboardDifficulty);
 			break;
-		case 4:
-			displayGameRules();
-			break;
+
 		case 5:
 			continueGame = false;
 			break;
