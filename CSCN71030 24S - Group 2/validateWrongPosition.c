@@ -2,8 +2,6 @@
 
 #include "validateWrongPosition.h"
 
-// Function is not finished, still has errors that need to be fixed (repeating numbers)
-
 int validate_wrong_position(int* guess, int* target, int length) {
 
 	int count = 0;
@@ -16,7 +14,7 @@ int validate_wrong_position(int* guess, int* target, int length) {
 		}
 		int match_count = 0;
 		for (int k = 0; k < length; k++) { // k iterates through target array
-			if ((guess[i] == target[k]) && (i != k) && (guess[k] != target[k])) { // check: values are equal, not at same index
+			if ((guess[i] == target[k]) && (i != k) && (guess[k] != target[k]) && (guess[i] != target[i])) { // check: values are equal, not at same index
 				match_count++;
 			}
 			if (match_count > prev_occurances) { // check match hasn't been counted for previous occurance of value
