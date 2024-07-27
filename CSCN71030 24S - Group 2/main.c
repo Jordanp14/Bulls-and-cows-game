@@ -124,7 +124,7 @@ int main(int argc, char* argv[])
 				if (bulls == difLength)
 				{
 					printf("\nCongratulations! You won in %d turns!\n", score);
-					Save_User_Score(username, score, &guess, difLength, difficulty);
+					Save_User_Score(username, score, guess, difLength, difficulty);
 				}
 
 			} while (bulls != difLength);
@@ -145,10 +145,22 @@ int main(int argc, char* argv[])
 			} while (value != 1 && readDifficulty(leaderboardDifficulty) != 4 &&
 				readDifficulty(leaderboardDifficulty) != 5 && readDifficulty(leaderboardDifficulty) != 6);
 
+			if (readDifficulty(leaderboardDifficulty) == 4)
+			{
+				strncpy(leaderboardDifficulty, "EASY", 7);
+			}
+			else if (readDifficulty(leaderboardDifficulty) == 5)
+			{
+				strncpy(leaderboardDifficulty, "MEDIUM", 7);
+			}
+			else if (readDifficulty(leaderboardDifficulty) == 6)
+			{
+				strncpy(leaderboardDifficulty, "HARD", 7);
+			}
 			// display leaderboard based on selected difficulty
 			Display_Leaderboard(leaderboardDifficulty);
 			break;
-
+			
 		case 5:
 			continueGame = false;
 			break;
@@ -157,6 +169,9 @@ int main(int argc, char* argv[])
 			break;
 		}
 	}
+
+	free(guess);
+	free(answer);
 
 	return 0;
 }
