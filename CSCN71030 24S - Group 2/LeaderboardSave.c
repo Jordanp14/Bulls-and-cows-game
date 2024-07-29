@@ -11,60 +11,37 @@ void Save_User_Score(char* username, int score, int* guess, int guess_length, ch
         return;
     }
 
+    //writing user information to the file
     fprintf(file, "%s %d %s Guess: ", username, score, difficulty);
+
+    // writing the guesses to the file
     for (int i = 0; i < guess_length; ++i) {
         fprintf(file, "%d ", guess[i]);
     }
+
+    //ending line after guesses
     fprintf(file, "\n");
     fclose(file);
 }
 
-bool wasGameWon(char* username) {
-    FILE* file = fopen(GAMESTATE_FILE, "r");
-    if (!file) {
-        perror("Failed to open game state file for reading");
-        return false;
-    }
-
-    char saved_username[MAX_USERNAME_LENGTH];
-    int saved_score;
-    int saved_guess_length;
-    char saved_difficulty[MAX_DIFFICULTY_LENGTH];
-    int game_won_flag;
-    while (fscanf(file, "%49s %d %d %9s %d", saved_username, &saved_score, &saved_guess_length, saved_difficulty, &game_won_flag) != EOF) {
-        if (strcmp(saved_username, username) == 0) {
-            fclose(file);
-            return game_won_flag == 1;
-        }
-        // Skip reading the guess and answer values if the username doesn't match
-        for (int i = 0; i < saved_guess_length; ++i) {
-            fscanf(file, "%d", &saved_guess_length);
-        }
-        for (int i = 0; i < saved_guess_length; ++i) {
-            fscanf(file, "%d", &saved_guess_length);
-        }
-    }
-
-    fclose(file);
-    return false;
-}
-
 // Save Game State Function
-void Save_Game_State(char* username, int score, int* guess, int guess_length, char* difficulty, int* answer) {
+void Save_Game_State(char* username, int score, int* guess, int guess_length, char* difficulty, int* answer, bool game_won) {
     FILE* file = fopen(GAMESTATE_FILE, "w");
     if (!file) {
         perror("Failed to open game state file for writing");
         return;
     }
 
-    int game_won_flag = (score > 0 && score <= guess_length) ? 1 : 0 ;
+    //writing the game state information to the file
+    fprintf(file, "%s %d %d %s %d\n", username, score, guess_length, difficulty, game_won);
 
-    fprintf(file, "%s %d %d %s\n", username, score, guess_length, difficulty);
+    //writing the guesses to the file
     for (int i = 0; i < guess_length; ++i) {
         fprintf(file, "%d ", guess[i]);
     }
     fprintf(file, "\n");
 
+    //writing the answers to the file
     for (int i = 0; i < guess_length; ++i) {
         fprintf(file, "%d ", answer[i]);
     }
@@ -74,29 +51,28 @@ void Save_Game_State(char* username, int score, int* guess, int guess_length, ch
 }
 
 
-
-bool Reload_Game_State(char* username, int* score, int* guess, int* guess_length, char* difficulty, int* answer) {
+// Reload Game State Function
+bool Reload_Game_State(char* username, int* score, int* guess, int* guess_length, char* difficulty, int* answer, bool* game_won) {
     FILE* file = fopen(GAMESTATE_FILE, "r");
     if (!file) {
         perror("Failed to open game state file for reading");
         return false;
     }
 
+    // variables to hold the read data
     char saved_username[MAX_USERNAME_LENGTH];
     int saved_score;
     int saved_guess_length; //specifies the count of guesses.
     char saved_difficulty[MAX_DIFFICULTY_LENGTH];
-    int game_won_flag = 0;
-    while (fscanf_s(file, "%49s %d %d %9s", saved_username, (unsigned)sizeof(saved_username), &saved_score, &saved_guess_length, saved_difficulty, (unsigned)sizeof(saved_difficulty)) != EOF) {
+    int saved_game_won;
+
+    // reading the data from the file
+    while (fscanf_s(file, "%49s %d %d %9s %d", saved_username, (unsigned)sizeof(saved_username), &saved_score, &saved_guess_length, saved_difficulty, (unsigned)sizeof(saved_difficulty), &saved_game_won) != EOF) {
         if (strcmp(saved_username, username) == 0) {
-            if (game_won_flag == 1) {
-                printf("You cannot reload your previous game as you already won it.\n");
-                fclose(file);
-                return false;
-            }
             *score = saved_score;
             *guess_length = saved_guess_length;
             strcpy_s(difficulty, MAX_DIFFICULTY_LENGTH, saved_difficulty);
+            *game_won = saved_game_won;
             for (int i = 0; i < saved_guess_length; ++i) {
                 fscanf_s(file, "%d", &guess[i]);
             }

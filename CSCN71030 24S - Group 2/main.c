@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 	char difficulty[7] = { 0 };
 	char leaderboardDifficulty[7] = { 0 };
 	bool continueGame = true;
+	bool game_won = false;
 
 	// seed the random
 	srand((unsigned int)time(NULL));
@@ -57,7 +58,18 @@ int main(int argc, char* argv[])
 	// reload prev game 
 	if (input == 1)
 	{
-		Reload_Game_State(username, &score, guess, &difLength, difficulty, answer);
+		if (!Reload_Game_State(username, &score, guess, &difLength, difficulty,answer, &game_won)) {
+			printf("No previous game found.\n");
+		}
+		else if (game_won) {
+			printf("You cannot reload your previous game as you already won it.\n");
+			free(answer);
+			free(guess);
+			return;
+		}
+		else {
+			printf("Game reloaded successfully.\n");
+		}
 	}
 	else {
 		// set command line argument to difficulty
@@ -74,7 +86,7 @@ int main(int argc, char* argv[])
 		{
 		case 1:
 
-			if (!Reload_Game_State(username, &score, guess, &difLength, difficulty, answer))
+			if (!Reload_Game_State(username, &score, guess, &difLength, difficulty, answer, &game_won))
 				break;
 
 
@@ -93,7 +105,7 @@ int main(int argc, char* argv[])
 				}
 
 				//save game after each guess
-				Save_Game_State(username, score, guess, difLength, difficulty, answer);
+				Save_Game_State(username, score, guess, difLength, difficulty, answer, false);
 
 				// add one to score
 				score++;
@@ -124,6 +136,8 @@ int main(int argc, char* argv[])
 				{
 					printf("\nCongratulations! You won in %d turns!\n", score);
 					Save_User_Score(username, score, guess, difLength, difficulty);
+					Save_Game_State(username, score, guess, difLength, difficulty,answer, true);
+					continueGame = false;
 				}
 
 			} while (bulls != difLength);

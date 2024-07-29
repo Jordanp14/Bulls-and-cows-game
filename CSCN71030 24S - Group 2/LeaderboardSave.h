@@ -8,9 +8,8 @@
 
 // Function Declarations
 void Save_User_Score(char* username, int score, int* guess, int guess_length, char* difficulty);
-bool wasGameWon(char* username);
-void Save_Game_State(char* username, int score, int* guess, int guess_length, char* difficulty, int* answer);
-bool Reload_Game_State(char* username, int* score, int* guess, int* guess_length, char* difficulty, int* answer);
+void Save_Game_State(char* username, int score, int* guess, int guess_length, char* difficulty, int* answer, bool game_won);
+bool Reload_Game_State(char* username, int* score, int* guess, int* guess_length, char* difficulty, int* answer, bool* game_won);
 void Display_Leaderboard(char* difficulty);
 
 
