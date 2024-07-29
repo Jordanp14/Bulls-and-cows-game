@@ -34,7 +34,7 @@ int main(int argc, char* argv[])
 
 	// temp for testing
 	// print("%d", difLength);
-	//printAnswer(answer, difLength);
+	printAnswer(answer, difLength);
 
 	int* guess = (int*)malloc(difLength * sizeof(int));
 	// check that memory was successfully allocated
@@ -57,13 +57,12 @@ int main(int argc, char* argv[])
 	// reload prev game 
 	if (input == 1)
 	{
-		Reload_Game_State(username, &score, guess, &difLength, difficulty);
-
+		Reload_Game_State(username, &score, guess, &difLength, difficulty, answer);
 	}
-
-	// set command line argument to difficulty
-	strncpy(difficulty, argv[1], strnlen(argv[1], 7));
-
+	else {
+		// set command line argument to difficulty
+		strncpy(difficulty, argv[1], strnlen(argv[1], 7));
+	}
 
 	while (continueGame)
 	{
@@ -75,7 +74,7 @@ int main(int argc, char* argv[])
 		{
 		case 1:
 
-			if (!Reload_Game_State(username, &score, guess, &difLength, difficulty))
+			if (!Reload_Game_State(username, &score, guess, &difLength, difficulty, answer))
 				break;
 
 
@@ -94,7 +93,7 @@ int main(int argc, char* argv[])
 				}
 
 				//save game after each guess
-				Save_Game_State(username, score, guess, difLength, difficulty);
+				Save_Game_State(username, score, guess, difLength, difficulty, answer);
 
 				// add one to score
 				score++;

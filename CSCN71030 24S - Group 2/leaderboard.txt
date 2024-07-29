@@ -1,1 +1,3 @@
-pulp 23 EASY Guess: -408680656 334 -858993460 -858993460 
+MEE 4 EASY Guess: 5 4 8 0 
+Nav 1 MEDIUM Guess: 7 4 3 0 0 
+NAV 2 HARD Guess: 2 3 0 4 7 9 
