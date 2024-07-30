@@ -50,31 +50,31 @@ int main(int argc, char* argv[])
 
 	// ask if user would like to reload previous game
 	// might not be needed but im worried about bugs if difficulty is changed between games
-	do {
-		printf("Would you like to reload a previous game?\n1.Yes\n2.No\n");
-		input = selectMenuOption();
-	} while (input != 1 && input != 2);
+	//do {
+	//	printf("Would you like to reload a previous game?\n1.Yes\n2.No\n");
+	//	input = selectMenuOption();
+	//} while (input != 1 && input != 2);
 
-	// reload prev game 
-	if (input == 1)
-	{
-		if (!Reload_Game_State(username, &score, guess, &difLength, difficulty,answer, &game_won)) {
-			printf("No previous game found.\n");
-		}
-		else if (game_won) {
-			printf("You cannot reload your previous game as you already won it.\n");
-			free(answer);
-			free(guess);
-			return;
-		}
-		else {
-			printf("Game reloaded successfully.\n");
-		}
-	}
-	else {
+	//// reload prev game 
+	//if (input == 1)
+	//{
+	//	if (!Reload_Game_State(username, &score, guess, &difLength, difficulty,answer, &game_won)) {
+	//		printf("No previous game found.\n");
+	//	}
+	//	else if (game_won) {
+	//		printf("You cannot reload your previous game as you already won it.\n");
+	//		free(answer);
+	//		free(guess);
+	//		return;
+	//	}
+	//	else {
+	//		printf("Game reloaded successfully.\n");
+	//	}
+	//}
+	//else {
 		// set command line argument to difficulty
 		strncpy(difficulty, argv[1], strnlen(argv[1], 7));
-	}
+	
 
 	while (continueGame)
 	{
@@ -86,9 +86,19 @@ int main(int argc, char* argv[])
 		{
 		case 1:
 
-			if (!Reload_Game_State(username, &score, guess, &difLength, difficulty, answer, &game_won))
+			if (!Reload_Game_State(username, &score, guess, &difLength, difficulty, answer, &game_won)) {
+				printf("No previous game found.\n");
 				break;
-
+			}
+			else if (game_won) {
+				printf("You cannot reload your previous game as you already won it.\n");
+				free(answer);
+				free(guess);
+				break;
+			}
+			else {
+				printf("Game reloaded successfully.\n");
+			}
 
 		case 2:
 			// Tell the user the difficulty
@@ -98,7 +108,7 @@ int main(int argc, char* argv[])
 			do
 			{
 				// get a guess from the user, if the first value is -1 then they typed "save" and the game should be paused
-				guess = getGuess(difLength);
+				getGuess(difLength, guess);
 				if (guess[0] == -1)
 				{
 					break;

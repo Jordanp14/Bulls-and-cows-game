@@ -5,7 +5,7 @@ void displayGameRules();
 //void startGame(int difficulty, char* username, char* initialGuess);
 int isValidGuess(char* guess, int difficulty);
 //void resumeGame(char* username);
-int* getGuess(int difficulty);
+void getGuess(int difficulty, int* guess);
 void displayTitle(void);
 void gameMenu(void);
 void getUsername(char* username);

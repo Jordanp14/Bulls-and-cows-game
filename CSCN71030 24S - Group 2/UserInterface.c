@@ -12,14 +12,8 @@ void getUsername(char* username) {
     scanf("%s", username);
 }
 
-int* getGuess(int difficulty) {
+void getGuess(int difficulty, int* guess) {
     
-    int* guess = (int*)malloc(sizeof(int) * difficulty);
-    if (guess == NULL)
-    {
-        printf("Could not allocate memory\t exiting...");
-        exit(1);
-    }
 
     char input[10];
     int valid;
@@ -40,7 +34,7 @@ int* getGuess(int difficulty) {
         }
     } while (!valid);
 
-    for (int i = 0; i < difficulty + 3; i++) {
+    for (int i = 0; i < difficulty; i++) {
         guess[i] = input[i] - '0';
     }
    // printAnswer(guess, difficulty);
