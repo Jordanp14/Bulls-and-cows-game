@@ -3,3 +3,6 @@ Nav 1 MEDIUM Guess: 7 4 3 0 0
 NAV 2 HARD Guess: 2 3 0 4 7 9 
 Navjeet 2 HARD Guess: 3 8 6 1 7 3 
 NAVV 7 EASY Guess: 1 9 0 6 
+Navi 3 EASY Guess: 9 3 4 3 
+Me 2 EASY Guess: 2 9 6 6 
+Meee 3 EASY Guess: 6 2 5 8 

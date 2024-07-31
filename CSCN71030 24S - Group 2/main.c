@@ -147,7 +147,7 @@ int main(int argc, char* argv[])
 					printf("\nCongratulations! You won in %d turns!\n", score);
 					Save_User_Score(username, score, guess, difLength, difficulty);
 					Save_Game_State(username, score, guess, difLength, difficulty,answer, true);
-					continueGame = false;
+					//continueGame = false;
 				}
 
 			} while (bulls != difLength);
