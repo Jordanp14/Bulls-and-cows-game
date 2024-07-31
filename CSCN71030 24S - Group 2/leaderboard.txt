@@ -6,3 +6,5 @@ NAVV 7 EASY Guess: 1 9 0 6
 Navi 3 EASY Guess: 9 3 4 3 
 Me 2 EASY Guess: 2 9 6 6 
 Meee 3 EASY Guess: 6 2 5 8 
+shal 4 MEDIUM Guess: 6 6 3 5 2 
+shal 1 MEDIUM Guess: 3 5 1 6 5 

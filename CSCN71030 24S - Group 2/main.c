@@ -162,7 +162,7 @@ int main(int argc, char* argv[])
 			// ask for leaderboad display difficulty 
 			do
 			{
-				printf("Which difficulty would you like to display?\n1. Easy\n2. Medium\n3. Hard\n");
+				printf("Which difficulty would you like to display?\n Easy\n Medium\n Hard\n");
 				value = scanf("%s", leaderboardDifficulty);
 
 			} while (value != 1 && readDifficulty(leaderboardDifficulty) != 4 &&
