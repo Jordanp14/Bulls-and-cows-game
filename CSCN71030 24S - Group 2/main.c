@@ -17,9 +17,8 @@ int main(int argc, char* argv[])
 		exit(1);
 	}
 
-	int  value, score = 0, bulls = 0, cows = 0, input;
-	char username[10] = { 0 };
-	char difficulty[7] = { 0 };
+	int  value, bulls = 0, cows = 0, input;
+	LEADERBOARD l = { 0 };
 	char leaderboardDifficulty[7] = { 0 };
 	bool continueGame = true;
 	bool game_won = false;
@@ -28,16 +27,22 @@ int main(int argc, char* argv[])
 	srand((unsigned int)time(NULL));
 
 	// read command line argument to get difficulty length
-	int difLength = readDifficulty(argv[1]);
+	l.guess_length = readDifficulty(argv[1]);
 
 	//generate random int* for answer
-	int* answer = getRandomInt(difLength);
+	int* answer = (int*)malloc(l.guess_length * sizeof(int));
+	if (answer == NULL)
+	{
+		printf("Could not allocate memory\t exiting...");
+		exit(1);
+	}
+	answer = getRandomInt(l.guess_length);
 
 	// temp for testing
-	// print("%d", difLength);
-	printAnswer(answer, difLength);
+	// print("%d", l.guess_length);
+	printAnswer(answer, l.guess_length);
 
-	int* guess = (int*)malloc(difLength * sizeof(int));
+	int* guess = (int*)malloc(l.guess_length * sizeof(int));
 	// check that memory was successfully allocated
 	if (guess == NULL)
 	{
@@ -46,34 +51,11 @@ int main(int argc, char* argv[])
 	}
 	// add get username function 
 	displayTitle();
-	getUsername(username);
+	getUsername(l.username);
 
-	// ask if user would like to reload previous game
-	// might not be needed but im worried about bugs if difficulty is changed between games
-	//do {
-	//	printf("Would you like to reload a previous game?\n1.Yes\n2.No\n");
-	//	input = selectMenuOption();
-	//} while (input != 1 && input != 2);
 
-	//// reload prev game 
-	//if (input == 1)
-	//{
-	//	if (!Reload_Game_State(username, &score, guess, &difLength, difficulty,answer, &game_won)) {
-	//		printf("No previous game found.\n");
-	//	}
-	//	else if (game_won) {
-	//		printf("You cannot reload your previous game as you already won it.\n");
-	//		free(answer);
-	//		free(guess);
-	//		return;
-	//	}
-	//	else {
-	//		printf("Game reloaded successfully.\n");
-	//	}
-	//}
-	//else {
 		// set command line argument to difficulty
-		strncpy(difficulty, argv[1], strnlen(argv[1], 7));
+		strncpy(l.difficulty, argv[1], strnlen(argv[1], 7));
 	
 
 	while (continueGame)
@@ -86,14 +68,13 @@ int main(int argc, char* argv[])
 		{
 		case 1:
 
-			if (!Reload_Game_State(username, &score, guess, &difLength, difficulty, answer, &game_won)) {
+			if (!Reload_Game_State(l.username, &l.score, guess, &l.guess_length, l.difficulty, answer, &game_won)) {
 				printf("No previous game found.\n");
 				break;
 			}
 			else if (game_won) {
 				printf("You cannot reload your previous game as you already won it.\n");
-				free(answer);
-				free(guess);
+				
 				break;
 			}
 			else {
@@ -102,28 +83,27 @@ int main(int argc, char* argv[])
 
 		case 2:
 			// Tell the user the difficulty
-			printf("The game is set to %s\n", difficulty);
+			printf("The game is set to %s\n", l.difficulty);
 
 			// until the game has been won
 			do
 			{
 				// get a guess from the user, if the first value is -1 then they typed "save" and the game should be paused
-				getGuess(difLength, guess);
+				getGuess(l.guess_length, guess);
 				if (guess[0] == -1)
 				{
 					break;
 				}
 
 				//save game after each guess
-				Save_Game_State(username, score, guess, difLength, difficulty, answer, false);
+				Save_Game_State(l, guess, answer, false);
 
 				// add one to score
-				score++;
+				l.score++;
 
 				// validate guess
-				bulls = validate_correct_position(guess, answer, difLength);
-				cows = validate_wrong_position(guess, answer, difLength);
-
+				bulls = validate_correct_position(guess, answer, l.guess_length);
+				cows = validate_wrong_position(guess, answer, l.guess_length);
 				//print results to user
 				if (bulls == 1)
 				{
@@ -142,15 +122,15 @@ int main(int argc, char* argv[])
 					printf("and %d cows.\n", cows);
 				}
 
-				if (bulls == difLength)
+				if (bulls == l.guess_length)
 				{
-					printf("\nCongratulations! You won in %d turns!\n", score);
-					Save_User_Score(username, score, guess, difLength, difficulty);
-					Save_Game_State(username, score, guess, difLength, difficulty,answer, true);
+					printf("\nCongratulations! You won in %d turns!\n", l.score);
+					Save_User_Score(l, guess);
+					Save_Game_State(l, guess, answer, true);
 					//continueGame = false;
 				}
 
-			} while (bulls != difLength);
+			} while (bulls != l.guess_length);
 			break;
 
 		case 3:

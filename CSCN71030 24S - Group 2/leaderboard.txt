@@ -8,3 +8,4 @@ Me 2 EASY Guess: 2 9 6 6
 Meee 3 EASY Guess: 6 2 5 8 
 shal 4 MEDIUM Guess: 6 6 3 5 2 
 shal 1 MEDIUM Guess: 3 5 1 6 5 
+jordan 2 HARD Guess: 4 0 1 7 7 0 

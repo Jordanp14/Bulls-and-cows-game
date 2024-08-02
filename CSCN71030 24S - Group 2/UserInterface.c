@@ -25,7 +25,7 @@ void getGuess(int difficulty, int* guess) {
         if (strcmp(input, "save") == 0) {
             guess[0] = -1;
             printf("Game saved. You can resume later.\n");
-            return guess;
+            return;
         }
 
         valid = isValidGuess(input, difficulty);
@@ -41,7 +41,6 @@ void getGuess(int difficulty, int* guess) {
 
     //printf("Your valid guess: %s\n", input);
     
-    return guess;
 }
 
 void displayTitle(void)
