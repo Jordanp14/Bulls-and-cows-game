@@ -1,4 +1,3 @@
-//CSCN71030 Group 2
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
@@ -9,172 +8,147 @@
 #include "answer.h"
 #include "validateWrongPosition.h"
 
-int main(int argc, char* argv[])
-{
-	if (argc != 2)
-	{
-		fprintf(stderr, "Invalid command line format, difficulty must be entered");
-		exit(1);
-	}
+int main(int argc, char* argv[]) {
+    if (argc != 2) {
+        fprintf(stderr, "Invalid command line format, difficulty must be entered\n");
+        exit(1);
+    }
 
-	int  value, bulls = 0, cows = 0, input;
-	LEADERBOARD l = { 0 };
-	char leaderboardDifficulty[7] = { 0 };
-	bool continueGame = true;
-	bool game_won = false;
+    int value, bulls = 0, cows = 0, input;
+    LEADERBOARD l = { 0 }; // Initialize leaderboard structure
+    char leaderboardDifficulty[7] = { 0 };
+    bool continueGame = true;
+    bool game_won = false;
 
-	// seed the random
-	srand((unsigned int)time(NULL));
+    // seed the random
+    srand((unsigned int)time(NULL));
 
-	// read command line argument to get difficulty length
-	l.guess_length = readDifficulty(argv[1]);
-
-	//generate random int* for answer
-	int* answer = (int*)malloc(l.guess_length * sizeof(int));
-	if (answer == NULL)
-	{
-		printf("Could not allocate memory\t exiting...");
-		exit(1);
-	}
-	answer = getRandomInt(l.guess_length);
-
-	// temp for testing
-	// print("%d", l.guess_length);
-	printAnswer(answer, l.guess_length);
-
-	int* guess = (int*)malloc(l.guess_length * sizeof(int));
-	// check that memory was successfully allocated
-	if (guess == NULL)
-	{
-		printf("Could not allocate memory\t exiting...");
-		exit(1);
-	}
-	// add get username function 
-	displayTitle();
-	getUsername(l.username);
+    int difficulty_index = 0; // Index for difficulty level
+    l.guess_length[difficulty_index] = readDifficulty(argv[1]);  // Set guess length based on difficulty
 
 
-		// set command line argument to difficulty
-		strncpy(l.difficulty, argv[1], strnlen(argv[1], 7));
-	
+    //generate random int* for answer
+    int* answer = (int*)malloc(l.guess_length[difficulty_index] * sizeof(int));
+    if (answer == NULL) {
+        printf("Could not allocate memory\t exiting...");
+        exit(1);
+    }
+    answer = getRandomInt(l.guess_length[difficulty_index]);
 
-	while (continueGame)
-	{
-		// game menu
-		gameMenu();
-		input = selectMenuOption();
+    // temp for testing
+    // print("%d", l.guess_length);
+    printAnswer(answer, l.guess_length[difficulty_index]);
 
-		switch (input)
-		{
-		case 1:
+    //allocating memory for answer
+    int* guess = (int*)malloc(l.guess_length[difficulty_index] * sizeof(int));
+    // check that memory was successfully allocated
+    if (guess == NULL) {
+        printf("Could not allocate memory\t exiting...");
+        exit(1);
+    }
 
-			if (!Reload_Game_State(l.username, &l.score, guess, &l.guess_length, l.difficulty, answer, &game_won)) {
-				printf("No previous game found.\n");
-				break;
-			}
-			else if (game_won) {
-				printf("You cannot reload your previous game as you already won it.\n");
-				
-				break;
-			}
-			else {
-				printf("Game reloaded successfully.\n");
-			}
+    // add get username function 
+    displayTitle();
+    getUsername(l.username);
 
-		case 2:
-			// Tell the user the difficulty
-			printf("The game is set to %s\n", l.difficulty);
+    // set command line argument to difficulty
+    strncpy(l.difficulty, argv[1], strnlen(argv[1], 7));
 
-			// until the game has been won
-			do
-			{
-				// get a guess from the user, if the first value is -1 then they typed "save" and the game should be paused
-				getGuess(l.guess_length, guess);
-				if (guess[0] == -1)
-				{
-					break;
-				}
+    while (continueGame) {
+        // game menu
+        gameMenu();
+        input = selectMenuOption();
 
-				//save game after each guess
-				Save_Game_State(l, guess, answer, false);
+        switch (input) {
+        case 1:
+            if (!Reload_Game_State(l.username, &l.score, guess, &l.guess_length[difficulty_index], l.difficulty, answer, &game_won, difficulty_index)) {
+                printf("No previous game found.\n");
+                break;
+            }
+            else if (game_won) {
+                printf("You cannot reload your previous game as you already won it.\n");
+                break;
+            }
+            else {
+                printf("Game reloaded successfully.\n");
+            }
+            
 
-				// add one to score
-				l.score++;
+        case 2:
+            // Tell the user the difficulty
+            printf("The game is set to %s\n", l.difficulty);
 
-				// validate guess
-				bulls = validate_correct_position(guess, answer, l.guess_length);
-				cows = validate_wrong_position(guess, answer, l.guess_length);
-				//print results to user
-				if (bulls == 1)
-				{
-					printf("There is 1 bull ");
-				}
-				else
-				{
-					printf("There are %d bulls ", bulls);
-				}
-				if (cows == 1)
-				{
-					printf("and 1 cow.\n");
-				}
-				else
-				{
-					printf("and %d cows.\n", cows);
-				}
+            // until the game has been won
+            
+            do {
 
-				if (bulls == l.guess_length)
-				{
-					printf("\nCongratulations! You won in %d turns!\n", l.score);
-					Save_User_Score(l, guess);
-					Save_Game_State(l, guess, answer, true);
-					//continueGame = false;
-				}
+                // get a guess from the user, if the first value is -1 then they typed "save" and the game should be paused
+                getGuess(l.guess_length[difficulty_index], guess);
+                if (guess[0] == -1) {
+                    break;
+                }
 
-			} while (bulls != l.guess_length);
-			break;
+                //save game after each guess
+                Save_Game_State(l, answer, false, difficulty_index, guess);
 
-		case 3:
-			displayGameRules();
-			break;
+                // add one to score
+                l.score++;
 
-		case 4:
-		
-			// ask for leaderboad display difficulty 
-			do
-			{
-				printf("Which difficulty would you like to display?\n Easy\n Medium\n Hard\n");
-				value = scanf("%s", leaderboardDifficulty);
+                // validate guess
+                bulls = validate_correct_position(guess, answer, l.guess_length[difficulty_index]);
+                cows = validate_wrong_position(guess, answer, l.guess_length[difficulty_index]);
 
-			} while (value != 1 && readDifficulty(leaderboardDifficulty) != 4 &&
-				readDifficulty(leaderboardDifficulty) != 5 && readDifficulty(leaderboardDifficulty) != 6);
+                //print results to user
+                if (bulls == 1) {
+                    printf("There is 1 bull ");
+                }
+                else {
+                    printf("There are %d bulls ", bulls);
+                }
+                if (cows == 1) {
+                    printf("and 1 cow.\n");
+                }
+                else {
+                    printf("and %d cows.\n", cows);
+                }
 
-			if (readDifficulty(leaderboardDifficulty) == 4)
-			{
-				strncpy(leaderboardDifficulty, "EASY", 7);
-			}
-			else if (readDifficulty(leaderboardDifficulty) == 5)
-			{
-				strncpy(leaderboardDifficulty, "MEDIUM", 7);
-			}
-			else if (readDifficulty(leaderboardDifficulty) == 6)
-			{
-				strncpy(leaderboardDifficulty, "HARD", 7);
-			}
-			// display leaderboard based on selected difficulty
-			Display_Leaderboard(leaderboardDifficulty);
-			break;
-			
-		case 5:
-			continueGame = false;
-			break;
-		default:
-			printf("Not a valid menu option\n");
-			break;
-		}
-	}
+                // Check if the game is won
+                if (bulls == l.guess_length[difficulty_index]) {
+                    printf("\nCongratulations! You won in %d turns!\n", l.score);
+                    Save_User_Score(l, difficulty_index, guess);
+                    Save_Game_State(l, answer, true, difficulty_index, guess);
+                    
+                }
 
-	free(guess);
-	free(answer);
+            } while (bulls != l.guess_length[difficulty_index]); // Repeat until the game is won
+            break;
 
-	return 0;
+        case 3:
+            displayGameRules();
+            break;
+
+        case 4:
+            // ask for leaderboad display difficulty 
+            do {
+                printf("Which difficulty would you like to display?\n Easy\n Medium\n Hard\n");
+                value = scanf("%6s", leaderboardDifficulty);
+
+            } while (value != 1 || (readDifficulty(leaderboardDifficulty) == -1)); 
+
+            // display leaderboard based on selected difficulty
+            Display_Leaderboard(leaderboardDifficulty);
+            break;
+
+        case 5:
+            continueGame = false;
+            break;
+        default:
+            printf("Not a valid menu option\n");
+            break;
+        }
+    }
+
+    free(answer);
+    free(guess);
+    return 0;
 }
