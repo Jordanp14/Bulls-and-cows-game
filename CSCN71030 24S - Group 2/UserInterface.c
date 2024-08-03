@@ -1,3 +1,5 @@
+//User Interface Module Implementation
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -61,37 +63,6 @@ void gameMenu(void) {
     printf("Please choose an option: ");
 }
 
-//redundant
-
-//void startGame(char* difficulty, char* username, char* initialGuess) {
-//    int guess[10];
-//    int valid;
-//
-//    if (initialGuess != NULL) {
-//        printf("\nResuming game at difficulty level %s with last guess %s.\n\n", difficulty, initialGuess);
-//        strcpy(guess, initialGuess);
-//    }
-//    else {
-//        printf("\nStarting game at difficulty level %s.\n\n", difficulty);
-//    }
-//
-//}
-
-//redundant
-
-//void resumeGame(char* username) {
-//    char difficulty[10];
-//    int* score = 4;
-//    char guess[10];
-//    int guess_length = 4;
-//
-//    if (Reload_Game_State(username, score, guess, guess_length, difficulty)) {
-//        startGame(difficulty, username, guess);
-//    }
-//    else {
-//        printf("No saved game found or error loading the game.\n");
-//    }
-//}
 
 void displayGameRules() {
     printf("\nGame Rules:\n");

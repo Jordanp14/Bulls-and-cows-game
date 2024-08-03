@@ -2,3 +2,4 @@ M 1 MEDIUM Guess: 1 5 9 9 9
 Nav 4 EASY Guess: 0 6 0 3 
 Nav 13 HARD Guess: 3 1 6 6 4 0 
 mee 1 HARD Guess: 4 4 0 6 2 6 
+shal 3 MEDIUM Guess: 5 9 5 1 4 

@@ -1,6 +1,8 @@
 #pragma once
 #include <stdbool.h>
 
+//Leaderboard Save Module Interface
+
 #define MAX_USERNAME_LENGTH 50
 #define LEADERBOARD_FILE "leaderboard.txt"
 #define GAMESTATE_FILE "gamestate.txt"
